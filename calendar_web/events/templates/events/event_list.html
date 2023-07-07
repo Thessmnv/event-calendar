@@ -1,0 +1,47 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+<h1>Мероприятия</h1>
+
+{% for event in event_list %}
+{% if event.approved %}
+<div class="card">
+  <div class="card-header">
+    {{ event }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Место проведения: {{ event.venue }}</h5>
+    <p class="card-text">
+
+         <strong>Дата: </strong>{{ event.event_date }}<br/>
+         <strong>Электронная почта места проведения:</strong> {{ event.venue.email_address }}<br/>
+         <strong>Организатор:</strong> {{ event.manager }}<br/>
+         <strong>Описание:</strong> {{ event.description }}<br/>
+        <strong>Подтвердить:</strong> {{ event.approved }}<br/>
+        <strong>Участники:</strong><br/>
+            {% for user in event.attendees.all %}
+         {{ user }}<br/>
+
+            {% endfor %}
+
+    </p>
+  </div>
+    {% if user.is_authenticated %}
+    {% if user == event.manager  %}
+    <div class="card-footer text-muted">
+
+    <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Изменить</a>
+
+        <a href="{% url 'delete-event' event.id %}" class="btn btn-outline-danger btn-sm">Удалить</a>
+
+  </div>
+    {% endif %}
+    {% endif %}
+</div>
+
+{% endif %}
+    <br/><br/>
+{% endfor %}
+
+{% endblock %}

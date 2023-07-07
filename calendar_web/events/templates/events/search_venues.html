@@ -1,0 +1,48 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+        {% if searched %}
+    <h1>Вы искали {{ searched }} </h1><br/>
+
+
+
+        {% for venue in venues %}
+          <div class="card">
+  <div class="card-header">
+    Venue
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ venue }}</h5>
+    <p class="card-text">
+        <ul>
+      {% if venue.address %}
+        <li>{{ venue.address }}</li>
+      {% endif %}
+
+      {% if venue.phone %}
+        <li>{{ venue.phone }}</li>
+      {% endif %}
+
+      {% if venue.web %}
+        <li>{{ venue.web|urlize }}</li>
+      {% endif %}
+
+      {% if venue.owner %}
+        <li>ID Владельца: {{ venue.owner }}</li>
+      {% endif %}
+
+
+        </ul>
+
+    </p>
+  </div>
+</div>
+<br/>
+        {% endfor %}
+        {% else %}
+        <h1>Вы забыли ввести место...</h1>
+        {% endif %}
+
+
+{% endblock %}

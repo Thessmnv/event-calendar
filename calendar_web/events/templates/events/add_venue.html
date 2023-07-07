@@ -1,0 +1,28 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <center>
+    <h1>Добавление места проведения мероприятия в базу данных</h1>
+    <br/><br/>
+        {% if submitted %}
+            Заявка на добавление места мероприятия успешно добавлена!
+
+        {% else %}
+
+            <form action="" method=POST enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <input type="submit" value="Добавить" class="btn btn-secondary">
+            </form>
+        {% endif %}
+    </center>
+{% else %}
+<h1>Извините, вы должны войти в систему.</h1>
+
+<a href="{% url 'login' %}">Войти в систему здесь</a>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+    <h2> Мои мероприятия </h2>
+    <br/>
+
+    {% for event in events %}
+
+<div class="card">
+  <div class="card-header">
+    {{ event }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Место проведения: {{ event.venue }}</h5>
+    <p class="card-text">
+
+         <strong>Дата: </strong>{{ event.event_date }}<br/>
+         <strong>Электронная почта места проведения:</strong> {{ event.venue.email_address }}<br/>
+         <strong>Организатор:</strong> {{ event.manager }}<br/>
+         <strong>Описание:</strong> {{ event.description }}<br/>
+        <strong>Участники:</strong><br/>
+            {% for user in event.attendees.all %}
+         {{ user }}<br/>
+
+            {% endfor %}
+
+    </p>
+  </div>
+    {% if user.is_authenticated %}
+    {% if user == event.manager  %}
+    <div class="card-footer text-muted">
+
+    <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Изменить</a>
+
+        <a href="{% url 'delete-event' event.id %}" class="btn btn-outline-danger btn-sm">Удалить</a>
+
+  </div>
+    {% endif %}
+    {% endif %}
+</div>
+
+    <br/><br/>
+        {% endfor %}
+
+
+
+
+
+{% endblock %}

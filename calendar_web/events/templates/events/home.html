@@ -1,0 +1,28 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+    <center>
+    <h1>Привет {{ name }}! Мероприятия на {{ month }} {{ year }} </h1>
+
+    Время {{ time }}
+    <br/><br/>
+    {{ cal|safe }}
+    <br/><br/>
+        <h3>Мероприятия в этом месяце</h3>
+
+        {% if event_list %}
+            {% for event in event_list %}
+                {{ event }} - {{ event.event_date }}
+                <br/>
+            {% endfor %}
+
+        {% else %}
+        В этом месяце нет мероприятий
+
+        {% endif %}
+
+    <br/><br/><br/><br/>
+
+
+    </center>
+{% endblock %}

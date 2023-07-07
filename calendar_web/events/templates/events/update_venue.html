@@ -1,0 +1,23 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <h1>Изменить место проведения</h1>
+    <br/>
+    <form action="" method=POST enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br/>
+        <input type="submit" value="Изменить" class="btn btn-secondary">
+    </form>
+
+{% else %}
+<h1>Извините, вы должны войти в систему.</h1>
+
+<a href="{% url 'login' %}">Войти в систему здесь</a>
+
+{% endif %}
+
+
+
+{% endblock %}

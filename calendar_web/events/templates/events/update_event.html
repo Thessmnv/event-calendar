@@ -1,0 +1,31 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user == event.manager  %}
+
+    <h1>Изменить мероприятие</h1>
+
+    <form action="" method=POST>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br/>
+        <input type="submit" value="Изменить" class="btn btn-secondary">
+    </form>
+
+    {% else %}
+    <h2>Доступ запрещен</h2>
+    <p>Только организатор мероприятия может изменять его</p>
+
+    Пользователь вошедший в систему: {{ user }}
+    <br/>
+    Организатор мероприятия: {{ event.manager }}
+    <br/>
+    {% endif %}
+{% else %}
+<h1>Извините, вы должны войти в систему.</h1>
+
+<a href="{% url 'login' %}">Войти в систему здесь</a>
+
+{% endif %}
+{% endblock %}

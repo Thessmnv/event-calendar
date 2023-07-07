@@ -1,0 +1,27 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+    <h1>Места</h1>
+<br/>
+<table class="table table-striped table-hover table-bordered">
+    {% for venue in venue_list %}
+
+        <tr>
+            <td>
+                <a href="{% url 'show-venue' venue.id %}"> {{ venue }}</a>
+            {% if user.is_authenticated %}
+            </td>
+            <td align="right">
+
+                <a href="{% url 'update-venue' venue.id %}" class="btn btn-outline-secondary btn-sm">Изменить</a>
+
+                 <a href="{% url 'delete-venue' venue.id %}" class="btn btn-outline-danger btn-sm">Удалить</a>
+            {% endif %}
+            </td>
+        </tr>
+
+    {% endfor %}
+</table>
+
+{% endblock %}
