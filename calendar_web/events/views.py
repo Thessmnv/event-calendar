@@ -18,6 +18,7 @@ from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+import telegram
 
 
 # создаем страницу подтверждения администратором
@@ -139,6 +140,13 @@ def update_event(request, event_id):
     return render(request, 'events/update_event.html', {'event': event,
                                                         'form': form})
 
+# отправление уведомлений с помощью телеграм бота в канал
+def send_message_to_channel(message):
+
+    bot = telegram.Bot(token='6095875871:AAEIF_qi7qnXo59lfFsWxPNAE_Zn4_I_YdM')
+    site_url = "http://sergeysmnv.pythonanywhere.com/"
+    message_with_link = "{}\n\nСсылка на сайт: {}".format(message, site_url)
+    bot.send_message(chat_id='-1001745287542', text=message_with_link)
 
 # добавить мероприятие
 def add_event(request):
@@ -148,6 +156,7 @@ def add_event(request):
             form = EventFormAdmin(request.POST)
             if form.is_valid():
                 form.save()
+                send_message_to_channel("Добавлено новое мероприятие на сайте: {}".format(form.cleaned_data['name']))
                 return HttpResponseRedirect('/add_event?submitted=True')
         else:
             form = EventFormAdmin(request.POST)
@@ -156,6 +165,7 @@ def add_event(request):
                 event = form.save(commit=False)
                 event.manager = request.user  # вошедший в систему пользователь
                 event.save()
+                send_message_to_channel("Добавлено новое мероприятие на сайте: {}".format(event.name))
                 return HttpResponseRedirect('/add_event?submitted=True')
     else:
         # переходим на страницу без отправления заявки
